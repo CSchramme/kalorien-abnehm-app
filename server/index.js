@@ -2,7 +2,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { openDb } from './db.js';
+import { openDb, DEFAULT_DB_PATH } from './db.js';
 import { createSessionStore, SESSION_COOKIE } from './auth.js';
 import { createApi } from './api.js';
 import { parseCookies } from './http.js';
@@ -79,7 +79,7 @@ function serveStatic(req, res, pathname) {
 }
 
 export function createServer({
-  dbPath = process.env.DB_PATH || './data/leichter.db',
+  dbPath = process.env.DB_PATH || DEFAULT_DB_PATH,
   trustProxy = process.env.TRUST_PROXY === '1' || process.env.TRUST_PROXY === 'true',
   cookieSecure = process.env.COOKIE_SECURE === '1' ? true : process.env.COOKIE_SECURE === '0' ? false : 'auto',
 } = {}) {

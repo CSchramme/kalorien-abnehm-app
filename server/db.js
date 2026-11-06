@@ -1,6 +1,10 @@
 import { DatabaseSync } from 'node:sqlite';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+/** Standard: <App-Verzeichnis>/data/leichter.db – unabhängig vom aktuellen Arbeitsverzeichnis */
+export const DEFAULT_DB_PATH = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'data', 'leichter.db');
 
 // Jede Migration wird genau einmal ausgeführt (PRAGMA user_version zählt mit).
 const MIGRATIONS = [

@@ -56,8 +56,9 @@ export function sendJson(res, status, data, headers = {}) {
 
 export function clientIp(req, trustProxy) {
   if (trustProxy) {
+    // Letzter Eintrag = vom eigenen (vertrauenswürdigen) Proxy angehängt; vordere Einträge kann der Client fälschen
     const fwd = req.headers['x-forwarded-for'];
-    if (typeof fwd === 'string' && fwd) return fwd.split(',')[0].trim();
+    if (typeof fwd === 'string' && fwd) return fwd.split(',').at(-1).trim();
   }
   return req.socket.remoteAddress || 'unknown';
 }

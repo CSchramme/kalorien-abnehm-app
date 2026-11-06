@@ -55,6 +55,24 @@ kalorien.example.de {
 
 **Backup:** Die gesamte Datenbank steckt in der Datei `leichter.db` (im Docker-Volume unter `/data`). Für ein konsistentes Backup im laufenden Betrieb z. B. `sqlite3 leichter.db ".backup backup.db"` verwenden.
 
+### Plesk (Node.js-Erweiterung / Phusion Passenger)
+
+1. **Node-Version prüfen:** *Websites & Domains → Node.js* muss **Node.js 22.13 oder neuer** anbieten (Node 24 geht auch).
+2. **Code holen:** *Git* → Repository hinzufügen (`git@github.com:CSchramme/kalorien-abnehm-app.git`, Branch wählen), Bereitstellungspfad z. B. `httpdocs/leichter`. Bei einem privaten Repo den von Plesk angezeigten SSH-Schlüssel bei GitHub unter *Settings → Deploy keys* eintragen. Als zusätzliche Bereitstellungsaktion `mkdir -p tmp && touch tmp/restart.txt` eintragen; das startet die App nach jedem Update neu.
+3. **Node.js aktivieren** mit diesen Werten:
+   - Anwendungsstamm: `httpdocs/leichter`
+   - Dokumentstamm: `httpdocs/leichter/public`
+   - Anwendungsstartdatei: **`app.cjs`**
+   - Anwendungsmodus: `production`
+   - Umgebungsvariablen: `COOKIE_SECURE=1`, `TRUST_PROXY=1`, `NODE_OPTIONS=--disable-warning=ExperimentalWarning`
+   - optional `DB_PATH=/var/www/vhosts/<domain>/leichter-data/leichter.db` (Ordner vorher im Dateimanager anlegen)
+
+   *NPM install* ist nicht nötig, weil es keine Abhängigkeiten gibt. Danach auf *App neu starten* klicken.
+4. **HTTPS:** Unter *SSL/TLS-Zertifikate* ein kostenloses Let's-Encrypt-Zertifikat ausstellen und „HTTP auf HTTPS umleiten“ aktivieren.
+5. **Testen:** `https://<domain>/api/health` muss `{"ok":true}` liefern.
+
+Ohne `DB_PATH` liegt die Datenbank in `<Anwendungsstamm>/data/` und damit außerhalb des Dokumentstamms, also nicht aus dem Web abrufbar. Für das Backup ist die Datei `leichter.db` wichtig.
+
 ### Verwaltung
 
 ```bash

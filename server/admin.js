@@ -2,10 +2,10 @@
 //   node server/admin.js users                      – alle Konten auflisten
 //   node server/admin.js reset-password <email>      – neues Zufallspasswort setzen
 import crypto from 'node:crypto';
-import { openDb } from './db.js';
+import { openDb, DEFAULT_DB_PATH } from './db.js';
 import { hashPassword, normalizeEmail } from './auth.js';
 
-const db = openDb(process.env.DB_PATH || './data/leichter.db');
+const db = openDb(process.env.DB_PATH || DEFAULT_DB_PATH);
 const [cmd, arg] = process.argv.slice(2);
 
 if (cmd === 'users') {

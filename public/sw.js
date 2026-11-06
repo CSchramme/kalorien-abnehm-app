@@ -1,6 +1,6 @@
 // Service Worker: App-Shell offline verfügbar machen, API-Antworten als Offline-Fallback zwischenspeichern.
 // Bei jeder Veröffentlichung VERSION erhöhen, damit Clients die neuen Dateien laden.
-const VERSION = 'v2';
+const VERSION = 'v3';
 const SHELL_CACHE = `shell-${VERSION}`;
 const API_CACHE = 'api-v1';
 
@@ -23,16 +23,21 @@ const SHELL = [
   '/js/views/weight.js',
   '/js/views/stats.js',
   '/js/views/profile.js',
-  '/icons/icon.svg',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/apple-touch-icon.png',
+  '/img/icon.svg',
+  '/img/icon-192.png',
+  '/img/icon-512.png',
+  '/img/apple-touch-icon.png',
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(SHELL_CACHE)
-      .then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' }))))
+      // Einzeln laden: Fehlt eine Datei (z. B. durch eine Server-Eigenheit), bleibt der Rest offline verfügbar
+      .then((c) => Promise.allSettled(SHELL.map((u) => c.add(new Request(u, { cache: 'reload' })))))
+      .then((results) => {
+        const failed = results.filter((r) => r.status === 'rejected').length;
+        if (failed) console.warn(`Service Worker: ${failed} Datei(en) konnten nicht zwischengespeichert werden.`);
+      })
       .then(() => self.skipWaiting()),
   );
 });

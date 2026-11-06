@@ -1,4 +1,4 @@
-// Erzeugt die PNG-App-Icons aus public/icons/icon.svg (benötigt Playwright + Chromium).
+// Erzeugt die PNG-App-Icons aus public/img/icon.svg (benötigt Playwright + Chromium).
 //   node scripts/make-icons.mjs
 //   (Playwright wird über NODE_PATH gefunden, z. B. NODE_PATH=$(npm root -g) node scripts/make-icons.mjs)
 import { createRequire } from 'node:module';
@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 
-const dir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'public', 'icons');
+const dir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'public', 'img');
 const svg = fs.readFileSync(path.join(dir, 'icon.svg'), 'utf8');
 // Für "maskable" und Apple: volle Fläche ohne abgerundete Ecken, Motiv in der sicheren Zone
 const fullBleed = svg.replace('rx="116"', 'rx="0"');

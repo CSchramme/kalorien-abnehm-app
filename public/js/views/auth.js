@@ -6,7 +6,7 @@ export async function render(root, { name, app }) {
   root.innerHTML = `
     <div class="auth">
       <section class="hero auth-brand">
-        <img src="/icons/icon.svg" alt="" width="76" height="76">
+        <img src="/img/icon.svg" alt="" width="76" height="76">
         <h1>Leichter</h1>
         <p>Kalorien zählen, Ziel erreichen.</p>
       </section>

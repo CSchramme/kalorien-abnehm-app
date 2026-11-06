@@ -108,7 +108,7 @@ server/
   db.js        SQLite-Schema & Migrationen
   admin.js     Verwaltungs-Werkzeug (Konsole)
 public/
-  index.html, manifest.webmanifest, sw.js (Service Worker), icons/
+  index.html, manifest.webmanifest, sw.js (Service Worker), img/ (App-Icons; bewusst nicht "icons/", das belegt Apache)
   css/app.css
   js/app.js    Router, Tab-Leiste, Theme
   js/lib/      calc.js (Kalorienziel, Nährstoffe), parse.js (Nährwert-Erkennung), von Browser UND Server genutzt
@@ -116,7 +116,7 @@ public/
 test/          node:test, API- und Berechnungstests
 ```
 
-Die Oberfläche ist reines JavaScript (ES-Module) ohne Build-Schritt. Wenn du Dateien in `public/` änderst, erhöhe `VERSION` in `public/sw.js`, damit installierte Apps die neue Version laden. Neue Dateien gehören zusätzlich in die `SHELL`-Liste. Die PNG-Icons werden mit `npm run icons` (Playwright) aus `public/icons/icon.svg` erzeugt.
+Die Oberfläche ist reines JavaScript (ES-Module) ohne Build-Schritt. Wenn du Dateien in `public/` änderst, erhöhe `VERSION` in `public/sw.js`, damit installierte Apps die neue Version laden. Neue Dateien gehören zusätzlich in die `SHELL`-Liste. Die PNG-Icons werden mit `npm run icons` (Playwright) aus `public/img/icon.svg` erzeugt.
 
 ## Ideen für später
 

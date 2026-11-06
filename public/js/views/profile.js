@@ -27,10 +27,12 @@ export async function render(root, { app }) {
   } catch {}
 
   root.innerHTML = `
+    <section class="hero">
     <header class="page-head simple profile-head">
       <span class="avatar" aria-hidden="true">${esc((user.name || user.email).slice(0, 1).toUpperCase())}</span>
       <div><h1>${esc(user.name || 'Profil')}</h1><p class="muted small">${esc(user.email)}</p></div>
     </header>
+    </section>
 
     <section class="card">
       <div class="card-head"><h2 class="card-title">Deine Ziele</h2>

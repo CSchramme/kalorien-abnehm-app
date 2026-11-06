@@ -8,10 +8,12 @@ export async function render(root, { app }) {
   const { foods } = await get('/api/foods?limit=500');
 
   root.innerHTML = `
+    <section class="hero">
     <header class="page-head simple"><h1>Lebensmittel</h1>
-      <button type="button" class="btn btn-primary btn-small" data-new>${icon('plus', { size: 18 })} Neu</button></header>
+      <button type="button" class="btn btn-hero btn-small" data-new>${icon('plus', { size: 18 })} Neu</button></header>
     <label class="search-field">${icon('search', { size: 20 })}
       <input type="search" placeholder="${foods.length} gespeichert – suchen" aria-label="Suchen" value="${esc(query)}" autocomplete="off"></label>
+    </section>
     <section class="card list-card"><ul class="list food-list"></ul></section>
     <p class="small muted center">Tipp: Nährwerte aus einer Rezept-App oder von der Verpackung kopieren und beim Anlegen mit „Nährwerte aus Text übernehmen“ einfügen.</p>`;
 

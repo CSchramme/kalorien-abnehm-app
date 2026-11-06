@@ -5,11 +5,11 @@ export async function render(root, { name, app }) {
   const register = name === 'registrieren';
   root.innerHTML = `
     <div class="auth">
-      <div class="auth-brand">
-        <img src="/icons/icon.svg" alt="" width="72" height="72">
+      <section class="hero auth-brand">
+        <img src="/icons/icon.svg" alt="" width="76" height="76">
         <h1>Leichter</h1>
-        <p class="muted">Kalorien zählen, Ziel erreichen.</p>
-      </div>
+        <p>Kalorien zählen, Ziel erreichen.</p>
+      </section>
       <div class="segmented" role="tablist">
         <a href="#/login" role="tab" class="${register ? '' : 'active'}" aria-selected="${!register}">Anmelden</a>
         <a href="#/registrieren" role="tab" class="${register ? 'active' : ''}" aria-selected="${register}">Registrieren</a>

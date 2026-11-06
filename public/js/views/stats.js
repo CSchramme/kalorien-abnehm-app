@@ -21,10 +21,12 @@ export async function render(root, { app }) {
   const bal = s.balance;
 
   root.innerHTML = `
+    <section class="hero">
     <header class="page-head simple"><h1>Statistik</h1></header>
     <div class="range-row"><div class="segmented" role="tablist" aria-label="Zeitraum">${RANGES.map((r) => `
       <button type="button" role="tab" data-days="${r}" class="${r === days ? 'active' : ''}" aria-selected="${r === days}">${r} Tage</button>`).join('')}
     </div></div>
+    </section>
 
     ${logged ? '' : `<div class="card empty-state small">${icon('chart', { size: 28 })}<p>In diesem Zeitraum gibt es noch keine Einträge. Trage im <a href="#/heute">Tagebuch</a> ein, was du isst – dann siehst du hier deine Bilanz.</p></div>`}
 

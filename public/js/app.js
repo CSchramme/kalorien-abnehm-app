@@ -53,7 +53,7 @@ export function applyTheme(theme) {
   else document.documentElement.dataset.theme = theme;
   const dark =
     theme === 'dark' || (theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
-  $('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0d0d0d' : '#f5f6f3');
+  $('meta[name="theme-color"]')?.setAttribute('content', dark ? '#1f5527' : '#2e8540');
   return theme;
 }
 

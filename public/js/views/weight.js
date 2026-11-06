@@ -40,10 +40,10 @@ export async function render(root, { app }) {
   }
 
   root.innerHTML = `
+    <section class="hero">
     <header class="page-head simple"><h1>Gewicht</h1>
-      <button type="button" class="btn btn-primary btn-small" data-add>${icon('plus', { size: 18 })} Eintragen</button></header>
-
-    <section class="card weight-hero">
+      <button type="button" class="btn btn-hero btn-small" data-add>${icon('plus', { size: 18 })} Eintragen</button></header>
+    <div class="weight-hero">
       <div class="stat-row">
         <div class="stat"><span class="stat-label">Aktuell</span><span class="stat-value">${fmt(current, 1)} <small>kg</small></span></div>
         <div class="stat"><span class="stat-label">Seit Start</span>
@@ -56,6 +56,7 @@ export async function render(root, { app }) {
           <i style="width:${pct}%"></i></div>
         <div class="progress-legend"><span>Start ${fmt(start, 1)} kg</span><b>${fmt(pct)} %</b><span>Ziel ${fmt(goal, 1)} kg</span></div>` : ''}
       ${eta ? `<p class="note">${icon('target', { size: 18 })}<span>${eta}</span></p>` : ''}
+    </div>
     </section>
 
     <section class="card">

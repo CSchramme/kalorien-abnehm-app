@@ -1,6 +1,6 @@
 // Service Worker: App-Shell offline verfügbar machen, API-Antworten als Offline-Fallback zwischenspeichern.
 // Bei jeder Veröffentlichung VERSION erhöhen, damit Clients die neuen Dateien laden.
-const VERSION = 'v1';
+const VERSION = 'v2';
 const SHELL_CACHE = `shell-${VERSION}`;
 const API_CACHE = 'api-v1';
 

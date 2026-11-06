@@ -51,6 +51,7 @@ export async function render(root, { args, app }) {
   const byMeal = Object.fromEntries(MEALS.map((m) => [m.key, day.entries.filter((e) => e.meal === m.key)]));
 
   root.innerHTML = `
+    <section class="hero">
     <header class="page-head date-nav">
       <a class="icon-btn" href="#/heute/${addDays(date, -1)}" aria-label="Vorheriger Tag">${icon('left')}</a>
       <label class="date-title">
@@ -60,9 +61,9 @@ export async function render(root, { args, app }) {
       </label>
       <a class="icon-btn" href="#/heute/${addDays(date, 1)}" aria-label="Nächster Tag">${icon('right')}</a>
     </header>
-    ${isToday ? '' : `<p class="center"><a class="chip" href="#/heute">Zu heute springen</a></p>`}
+    ${isToday ? '' : `<p class="center hero-jump"><a class="chip chip-hero" href="#/heute">Zu heute springen</a></p>`}
 
-    <section class="card summary" aria-label="Kalorienbilanz">
+    <div class="summary" role="group" aria-label="Kalorienbilanz">
       <div class="ring-wrap">
         ${ring(t.kcal, budget)}
         <div class="ring-label">
@@ -76,6 +77,7 @@ export async function render(root, { args, app }) {
         <div><dt>+ Sport</dt><dd>${fmt(day.burned)}</dd></div>
         <div class="total ${left < 0 ? 'neg' : ''}"><dt>= ${left >= 0 ? 'Übrig' : 'Zu viel'}</dt><dd>${left < 0 ? '−' : ''}${fmt(Math.abs(left))}</dd></div>
       </dl>
+    </div>
     </section>
 
     <section class="card">

@@ -11,11 +11,13 @@ export async function render(root, { app }) {
   const rateValue = p.rate ?? 0.5;
 
   root.innerHTML = `
+    <section class="hero">
     <header class="page-head simple">
       ${editing ? `<a href="#/profil" class="icon-btn" aria-label="Zurück">${icon('left')}</a>` : ''}
       <div><h1>${editing ? 'Körperdaten & Ziel' : `Willkommen${me.user.name ? `, ${esc(me.user.name)}` : ''}!`}</h1>
       ${editing ? '' : '<p class="muted">Ein paar Angaben, dann berechnen wir dein persönliches Kalorienziel.</p>'}</div>
     </header>
+    </section>
     <form class="stack" novalidate>
       <section class="card form">
         <h2 class="card-title">Über dich</h2>

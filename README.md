@@ -17,9 +17,15 @@ Eine installierbare Web-App (PWA) zum Abnehmen: Mahlzeiten und Nährwerte erfass
 
 ## Schnellstart
 
-Voraussetzung: **Node.js ≥ 22.13**. Es gibt keine weiteren Abhängigkeiten: Die Datenbank ist das in Node eingebaute SQLite (`node:sqlite`).
+Voraussetzung: **Node.js ≥ 20**. Als Datenbank dient SQLite, und zwar auf einem von zwei Wegen:
+
+- **Node 20 oder neuer:** `npm install` installiert [`better-sqlite3`](https://github.com/WiseLibs/better-sqlite3). Version 12.9.0 ist fest eingestellt, weil sie fertige Pakete für Node 20 mitbringt; man braucht also keinen Compiler.
+- **Node ≥ 22.13:** Es geht auch ganz ohne Installation mit dem eingebauten `node:sqlite`.
+
+Ist `better-sqlite3` installiert, wird es bevorzugt. Mit `DB_DRIVER=node:sqlite` bzw. `DB_DRIVER=better-sqlite3` lässt sich ein Treiber erzwingen.
 
 ```bash
+npm install          # nur nötig für Node 20–22.12
 npm start            # http://localhost:3000
 npm run dev          # mit automatischem Neustart bei Änderungen
 npm test             # API- und Berechnungstests
@@ -57,17 +63,17 @@ kalorien.example.de {
 
 ### Plesk (Node.js-Erweiterung / Phusion Passenger)
 
-1. **Node-Version prüfen:** *Websites & Domains → Node.js* muss **Node.js 22.13 oder neuer** anbieten (Node 24 geht auch).
+1. **Node-Version:** In *Websites & Domains → Node.js* **Node.js 20.x** wählen (oder 22.x/24.x, falls angeboten). Node 18 und 21 werden nicht unterstützt.
 2. **Code holen:** *Git* → Repository hinzufügen (`git@github.com:CSchramme/kalorien-abnehm-app.git`, Branch wählen), Bereitstellungspfad z. B. `httpdocs/leichter`. Bei einem privaten Repo den von Plesk angezeigten SSH-Schlüssel bei GitHub unter *Settings → Deploy keys* eintragen. Als zusätzliche Bereitstellungsaktion `mkdir -p tmp && touch tmp/restart.txt` eintragen; das startet die App nach jedem Update neu.
 3. **Node.js aktivieren** mit diesen Werten:
    - Anwendungsstamm: `httpdocs/leichter`
    - Dokumentstamm: `httpdocs/leichter/public`
    - Anwendungsstartdatei: **`app.cjs`**
    - Anwendungsmodus: `production`
-   - Umgebungsvariablen: `COOKIE_SECURE=1`, `TRUST_PROXY=1`, `NODE_OPTIONS=--disable-warning=ExperimentalWarning`
+   - Umgebungsvariablen: `COOKIE_SECURE=1`, `TRUST_PROXY=1`
    - optional `DB_PATH=/var/www/vhosts/<domain>/leichter-data/leichter.db` (Ordner vorher im Dateimanager anlegen)
 
-   *NPM install* ist nicht nötig, weil es keine Abhängigkeiten gibt. Danach auf *App neu starten* klicken.
+   Danach auf **NPM install** klicken. Das installiert `better-sqlite3` und muss nur beim ersten Mal und nach Änderungen an `package.json` wiederholt werden. Anschließend auf *App neu starten* klicken.
 4. **HTTPS:** Unter *SSL/TLS-Zertifikate* ein kostenloses Let's-Encrypt-Zertifikat ausstellen und „HTTP auf HTTPS umleiten“ aktivieren.
 5. **Testen:** `https://<domain>/api/health` muss `{"ok":true}` liefern.
 

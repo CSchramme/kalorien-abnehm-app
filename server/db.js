@@ -1,7 +1,50 @@
-import { DatabaseSync } from 'node:sqlite';
 import fs from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+
+const require = createRequire(import.meta.url);
+
+/**
+ * SQLite-Treiber wählen:
+ *  1. better-sqlite3 (per "npm install", läuft ab Node 20 – z. B. bei Plesk-Hostern)
+ *  2. node:sqlite (in Node ≥ 22.13 eingebaut, ganz ohne Installation)
+ * Mit DB_DRIVER=better-sqlite3 bzw. DB_DRIVER=node:sqlite lässt sich einer erzwingen.
+ * Beide haben dieselbe synchrone API (prepare/get/all/run/exec), der restliche Code merkt keinen Unterschied.
+ */
+function loadDriver(wanted = process.env.DB_DRIVER) {
+  const drivers = {
+    'better-sqlite3': () => {
+      const Database = require('better-sqlite3');
+      return (file) => new Database(file);
+    },
+    'node:sqlite': () => {
+      const { DatabaseSync } = require('node:sqlite');
+      return (file) => new DatabaseSync(file);
+    },
+  };
+  const order = wanted ? [wanted] : ['better-sqlite3', 'node:sqlite'];
+  const errors = [];
+  for (const name of order) {
+    if (!drivers[name]) throw new Error(`Unbekannter DB_DRIVER "${name}".`);
+    try {
+      return { name, open: drivers[name]() };
+    } catch (err) {
+      errors.push(`${name}: ${err.message.split('\n')[0]}`);
+    }
+  }
+  throw new Error(
+    `Keine SQLite-Bibliothek verfügbar (Node ${process.version}).\n` +
+      'Lösung: im App-Ordner "npm install" ausführen (installiert better-sqlite3, ab Node 20) ' +
+      'oder Node.js ≥ 22.13 verwenden.\n' + errors.join('\n'),
+  );
+}
+
+let driver;
+export function dbDriverName() {
+  driver ??= loadDriver();
+  return driver.name;
+}
 
 /** Standard: <App-Verzeichnis>/data/leichter.db – unabhängig vom aktuellen Arbeitsverzeichnis */
 export const DEFAULT_DB_PATH = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'data', 'leichter.db');
@@ -98,7 +141,8 @@ const MIGRATIONS = [
 
 export function openDb(file) {
   if (file !== ':memory:') fs.mkdirSync(path.dirname(path.resolve(file)), { recursive: true });
-  const db = new DatabaseSync(file);
+  driver ??= loadDriver();
+  const db = driver.open(file);
   db.exec('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;');
   const { user_version: version } = db.prepare('PRAGMA user_version').get();
   for (let v = version; v < MIGRATIONS.length; v++) {

@@ -1,0 +1,24 @@
+{
+  "id": "/",
+  "name": "Leichter – Kalorien & Abnehmen",
+  "short_name": "Leichter",
+  "description": "Kalorientracker und Abnehm-App mit Nährwerten, Gewichtsverlauf und Kalorienbilanz.",
+  "lang": "de",
+  "start_url": "/#/heute",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f6f3",
+  "theme_color": "#f5f6f3",
+  "categories": ["health", "fitness", "food"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Tagebuch", "url": "/#/heute", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Gewicht eintragen", "url": "/#/gewicht", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

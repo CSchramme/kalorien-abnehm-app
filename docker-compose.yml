@@ -1,0 +1,14 @@
+services:
+  leichter:
+    build: .
+    restart: unless-stopped
+    environment:
+      # hinter einem HTTPS-Reverse-Proxy (Caddy, nginx, Traefik …)
+      TRUST_PROXY: "1"
+    volumes:
+      - leichter-data:/data
+    ports:
+      - "127.0.0.1:3000:3000"
+
+volumes:
+  leichter-data:
